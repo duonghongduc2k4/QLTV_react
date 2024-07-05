@@ -126,7 +126,7 @@ function Confirm() {
                         </div>
                     </nav>
                 </div>
-                <body>
+                <body style={{ height: '500px' }}>
                     <div className="container" style={{ minHeight: '19rem' }}>
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
@@ -147,41 +147,53 @@ function Confirm() {
                                     <th></th>
                                 </tr>
                             </thead>
-                            {orders.reverse().map((order, i) => (
-                                <tbody key={i}>
-                                    <tr>
-                                        <td scope="row">{i + 1}</td>
-                                        <td>{order.account.name}</td>
-                                        <td>
-                                            <a href={`detail/${order.house.id}`} className="custom-link">
-                                                {order.house.name}
-                                            </a>
-                                        </td>
-                                        <td>{order.house.address}</td>
-                                        <td>{formatCurrency(order.revenue)}</td>
-                                        <td>
-                                            {(() => {
-                                                switch (order.status.id) {
-                                                    case 2:
-                                                        return 'Đã thuê';
-                                                    case 5:
-                                                        return 'Đã hủy';
+                            {orders && orders.length > 0 ? (
+                                orders.reverse().map((order, i) => (
+                                    <tbody key={i}>
+                                        <tr>
+                                            <td scope="row">{i + 1}</td>
+                                            <td>{order.account.name}</td>
+                                            <td>
+                                                <a href={`detail/${order.house.id}`} className="custom-link">
+                                                    {order.house.name}
+                                                </a>
+                                            </td>
+                                            <td>{order.house.address}</td>
+                                            <td>{formatCurrency(order.revenue)}</td>
+                                            <td>
+                                                {(() => {
+                                                    switch (order.status.id) {
+                                                        case 2:
+                                                            return 'Đã chấp nhận thuê';
+                                                        case 5:
+                                                            return 'Đã từ chối cho thuê';
+                                                        case 7:
+                                                            return 'Khách đã hủy';
+                                                        case 6:
+                                                            return 'Đã ngưng cho thuê';
+                                                    }
+                                                })()}
+                                                {order.status.id === 3 &&
+                                                    <div>
+                                                        <button style={{ border: 'none' }} className="custom-button custom-button--primary" onClick={() => yes(order)}>
+                                                            Chấp nhận thuê
+                                                        </button>
+                                                        <button style={{ border: 'none' }} className="custom-button custom-button--danger" onClick={() => no(order)}>
+                                                            Từ chối thuê
+                                                        </button>
+                                                    </div>
                                                 }
-                                            })()}
-                                            {order.status.id === 3 &&
-                                                <div>
-                                                    <button style={{ border: 'none' }} className="custom-button custom-button--primary" onClick={() => yes(order)}>
-                                                        Chấp nhận thuê
-                                                    </button>
-                                                    <button style={{ border: 'none' }} className="custom-button custom-button--danger" onClick={() => no(order)}>
-                                                        Từ chối thuê
-                                                    </button>
-                                                </div>
-                                            }
-                                        </td>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                ))
+                            ) : (
+                                <tbody>
+                                    <tr>
+                                        <td colSpan={6}>Chưa có dữ liệu</td>
                                     </tr>
                                 </tbody>
-                            ))}
+                            )}
                         </table>
                     </div>
                 </body>

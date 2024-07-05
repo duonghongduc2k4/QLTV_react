@@ -41,15 +41,9 @@ function History() {
 
     async function cancelOrder(item) {
         const response = await axios.put(`http://localhost:8080/api/order/${item.id}`, {
-            timeStart: item.timeStart,
-            timeEnd: item.timeEnd,
-            revenue: item.revenue,
-            total: item.total,
-            idHouse: item.house.id,
-            idAccount: idAccount
+            id: item.id,
         });
         if (response.data) {
-            // Cập nhật lại danh sách đơn hàng sau khi hủy thành công
             getHistory();
         }
     }
@@ -146,44 +140,49 @@ function History() {
                             </tr>
                         </thead>
                         <tbody>
-                            {order.reverse().map((item, i) => (
-                                <tr key={i}>
-                                    <td>{i + 1}</td>
-                                    <td>{item.timeStart} đến {item.timeEnd}</td>
-                                    <td><Link to="/detail" className="custom-link">{item.house.name}</Link></td>
-                                    <td>{item.total}</td>
-                                    <td>{formatCurrency(item.revenue)}</td>
-                                    <td>{item.house.address}</td>
-                                    <td>
-                                        {(() => {
-                                            switch (item.status.id) {
-                                                case 1:
-                                                    return 'Từ trối';
-                                                case 2:
-                                                    return 'Đã thuê';
-                                                case 3:
-                                                    return 'Chờ duyệt';
-                                                default:
-                                                    return 'Đã hủy';
+                            {order && order.length > 0 ? (
+                                order.reverse().map((item, i) => (
+                                    <tr key={i}>
+                                        <td>{i + 1}</td>
+                                        <td>{item.timeStart} đến {item.timeEnd}</td>
+                                        <td><Link to="/detail" className="custom-link">{item.house.name}</Link></td>
+                                        <td>{item.total}</td>
+                                        <td>{formatCurrency(item.revenue)}</td>
+                                        <td>{item.house.address}</td>
+                                        <td>
+                                            {(() => {
+                                                switch (item.status.id) {
+                                                    case 1:
+                                                        return 'Từ trối';
+                                                    case 2:
+                                                        return 'Đã thuê';
+                                                    case 3:
+                                                        return 'Chờ duyệt';
+                                                    default:
+                                                        return 'Đã hủy';
+                                                }
+                                            })()}
+                                        </td>
+                                        <td>
+                                            {item.status.id === 3 &&
+                                                <div>
+                                                    {moment(item.timeStart).toDate().getDate() > today.getDate() && moment(item.timeStart).toDate().getDate() - today.getDate() >= 1 ? (
+                                                        <button type="button" style={{ border: 'none' }} onClick={() => cancelOrder(item)} className="custom-button custom-button--danger">
+                                                            Hủy thuê
+                                                        </button>
+                                                    ) : moment(item.timeStart).toDate().getDate() < today.getDate() && item.status.name !== "Đã thuê" ? (
+                                                        <div className="custom-text">Quá hạn thuê</div>
+                                                    ) : null}
+                                                </div>
                                             }
-                                        })()}
-                                    </td>
-
-                                    <td>
-                                        {item.status.id === 3 &&
-                                            <div>
-                                                {moment(item.timeStart).toDate().getDate() > today.getDate() && moment(item.timeStart).toDate().getDate() - today.getDate() >= 1 ? (
-                                                    <button type="button" style={{ border: 'none' }} onClick={() => cancelOrder(item)} className="custom-button custom-button--danger">
-                                                        Hủy thuê
-                                                    </button>
-                                                ) : moment(item.timeStart).toDate().getDate() < today.getDate() && item.status.name !== "Đã thuê" ? (
-                                                    <div className="custom-text">Quá hạn thuê</div>
-                                                ) : null}
-                                            </div>
-                                        }
-                                    </td>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={8}>Chưa có dữ liệu</td>
                                 </tr>
-                            ))}
+                            )}
                         </tbody>
                     </table>
                 </div>

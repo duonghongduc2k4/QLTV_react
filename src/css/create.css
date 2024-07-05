@@ -44,9 +44,9 @@
     height: 110px; /* Điều chỉnh chiều cao tùy ý */
     object-fit: cover;
 }
-.row{
+/* .row{
     margin-top: 5%;
-}
+} */
 .image{
     width: 50%;
 }

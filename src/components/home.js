@@ -48,7 +48,6 @@ export default function Home() {
         const pageItems = [];
         for (let i = 1; i <= totalPages; i++) {
             const isActive = i === currentPage ? 'active' : '';
-
             pageItems.push(
                 <li className={`page-item ${isActive}`} key={i}>
                     <a className="page-link" onClick={() => currentPage + 1}>{i}</a>
@@ -74,6 +73,7 @@ export default function Home() {
         return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
     }
 
+    
     return (
 
         <div className="body">
@@ -199,7 +199,7 @@ export default function Home() {
                                 <option value="2">Đã cho thuê</option>
                             </select>
                             <div style={{ marginLeft: '1%' }}>
-                                <button className="btn btn-danger h-40  my-2 my-sm-0 " type="submit" style={{ left: "20%", width: '100px' }}>Tìm
+                                <button className="btn btn-primary h-40  my-2 my-sm-0 " type="submit" style={{ left: "20%", width: '100px' }}>Tìm
                                     kiếm
                                 </button>
                             </div>
@@ -215,14 +215,14 @@ export default function Home() {
                     <div className="container_top">
                         {currentPageData.map(houses =>
                             <div className="house-card">
-                                <Link to={`/detail/${houses.id}`}>
+                                <a href={`/detail/${houses.id}`}>
                                     <div className="image-tour">
                                         <img
                                             src={process.env.PUBLIC_URL + '/img/' + (houses.images[0]?.nameImage || '')}
                                             alt="work-thumbnail"
                                         />
                                     </div>
-                                </Link>
+                                </a>
                                 <div className="title_status">
 
                                     <div className="title-tour">
@@ -237,12 +237,12 @@ export default function Home() {
                                                 console.log(houses.status.id)
 
                                                 switch (houses.status.name.toLowerCase()) {
+                                                    case 'ngưng cho thuê':
+                                                        return '#E53935'; // đỏ
                                                     case 'đang trống':
-                                                        return ' #E53935'; // Màu xanh lá cây
-                                                    case 'đã thuê':
-                                                        return '#4CAF50'; // Màu đỏ
+                                                        return '#4CAF50'; // xanh lá
                                                     default:
-                                                        return '#FFEB3B'; // Màu vàng
+                                                        return '#0099FF'; // Màu vàng
                                                 }
                                             })(),
                                             color: '#FFFFFF', // Màu chữ trắng

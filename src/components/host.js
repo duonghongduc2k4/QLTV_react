@@ -107,7 +107,7 @@ function HostList() {
                     </div>
                 </nav>
             </div>
-            <body>
+            <body style={{height:'500px'}}>
                 <div className="container" >
                     <ul class="nav nav-tabs">
                         <Link to="/create">
@@ -148,7 +148,7 @@ function HostList() {
                                         <button style={{border:'none'}} type="button" className="custom-button custom-button--secondary " onClick={() => window.location.href = `edit/${house.id}`}>
                                             Sửa nhà
                                         </button>
-                                      <Link className="btn btn-danger ml-2" onClick={()=> deleteHouse(house.id)}>Xóa nhà</Link>
+                                    
                                     </td>
                                     <td>
                                             

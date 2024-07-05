@@ -107,10 +107,11 @@ function Detail() {
     function formatCurrency(amount) {
         return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
     }
-
+    const [status, setStatus] = useState(0)
     async function getHouse() {
         const res = await axios.get(`http://localhost:8080/api/house/${params.id}`)
         setHouse(res.data);
+        setStatus(res.data.status.id);
     }
 
     useEffect(() => {
@@ -192,6 +193,14 @@ function Detail() {
     const disabledDate = (current) => {
         return current && (current.isBefore(currentDate, 'day') || datesDB.includes(current.format('YYYY-MM-DD')));
     };
+
+    async function cancelOrder() {
+        const response = await axios.put(`http://localhost:8080/api/house/no/${house.id}`, {
+            id:house.id,
+            
+        });
+            navigate('/home')
+    }
     return (
         <div>
             <div className="header" style={{ position: "sticky", top: "0", zIndex: "1000" }}>
@@ -293,41 +302,46 @@ function Detail() {
                                             <p style={{ marginRight: '8px', fontSize: '20px' }}><b>Phương thức liên hệ:</b><br /><small>SĐT: {account.phoneNumber}</small></p>
                                         </div>
                                     </div>
-                                    <div className="test2" style={{ position: 'sticky', left: '66%', marginTop: "4%", borderRadius: '10px', boxShadow: '0px 0px 8px #888888' }}>
-                                        <div style={{ margin: '10%' }}>                                        <p>Ngày bắt đầu | Ngày kết thúc </p>
-                                            <Space direction="vertical" size={12}>
-                                                <RangePicker onChange={handleDateRangeChange}
-                                                    disabledDate={disabledDate}
-                                                    placeholder={['Ngày bắt đầu', 'Ngày kết thúc']}
-                                                    format="DD-MM-YYYY"
-                                                    value={dateRange.length > 0 ? [dayjs(dateRange[0], 'DD-MM-YYYY'), dayjs(dateRange[1], 'DD-MM-YYYY')] : []}
-                                                    style={{
-                                                        padding: '8px 12px',
-                                                    }}
-                                                />
-                                            </Space>
-                                            <p>Số ngày thuê: {numDays}</p>
-                                            <p>Tổng tiền: {formatCurrency(numDays * price)} </p>
-                                            {formattedErrorMessages.length > 0 && <div>
-                                                <span style={{ color: 'red' }}>Ngày </span>
-                                                {formattedErrorMessages.map((mess, index) => (
-                                                    <span key={index} style={{ color: 'red' }}>
-                                                        {mess}
-                                                        {index < formattedErrorMessages.length - 1 ? ', ' : ''}
-                                                    </span>
-                                                ))}
-                                                <span style={{ color: 'red' }}> đã được đặt</span>
-                                            </div>}
+                                    {/* đặt nhà */}
+                                    {status !== 6 && role === 'user' &&
+                                        <div className="test2" style={{ position: 'sticky', left: '66%', marginTop: "4%", borderRadius: '10px', boxShadow: '0px 0px 8px #888888' }}>
+                                            <div style={{ margin: '10%' }}>                                        <p>Ngày bắt đầu | Ngày kết thúc </p>
+                                                <Space direction="vertical" size={12}>
+                                                    <RangePicker onChange={handleDateRangeChange}
+                                                        disabledDate={disabledDate}
+                                                        placeholder={['Ngày bắt đầu', 'Ngày kết thúc']}
+                                                        format="DD-MM-YYYY"
+                                                        value={dateRange.length > 0 ? [dayjs(dateRange[0], 'DD-MM-YYYY'), dayjs(dateRange[1], 'DD-MM-YYYY')] : []}
+                                                        style={{
+                                                            padding: '8px 12px'
+                                                        }}
+                                                    />
+                                                </Space>
+                                                <p>Số ngày thuê: {numDays}</p>
+                                                <p>Tổng tiền: {formatCurrency(numDays * price)} </p>
+                                                {formattedErrorMessages.length > 0 && <div>
+                                                    <span style={{ color: 'red' }}>Ngày </span>
+                                                    {formattedErrorMessages.map((mess, index) => (
+                                                        <span key={index} style={{ color: 'red' }}>
+                                                            {mess}
+                                                            {index < formattedErrorMessages.length - 1 ? ', ' : ''}
+                                                        </span>
+                                                    ))}
+                                                    <span style={{ color: 'red' }}> đã được đặt</span>
+                                                </div>}
 
 
-                                            <form onSubmit={BookHouse}>
-                                                <input type="submit" value="Đặt nhà" />
-                                            </form>
+                                                <form onSubmit={BookHouse}>
+                                                    <input type="submit" value="Đặt nhà" />
+                                                </form>
 
+                                            </div>
                                         </div>
-
-                                    </div>
+                                    }
                                 </div>
+                                {role === 'host' && status !== 2 && status !== 6 &&
+                                    <div className="button" onClick={() => cancelOrder()}>Ngưng cho thuê</div>
+                                }
                             </article>
                             <div class="contact-form article-comment">
                                 <h4>Nhận xét</h4>
