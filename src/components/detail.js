@@ -256,7 +256,7 @@ function Detail() {
                                         {house.images?.map((item, index) => (
                                             <div className={`carousel-item ${index === 0 ? 'active' : ''}`}
                                                 style={{ height: '500px' }}>
-                                                <img src={process.env.PUBLIC_URL + '/img/' + (item.nameImage)}
+                                                <img src={process.env.PUBLIC_URL + 'https://thuenhaagoda.up.railway.app/img/' + (item.nameImage)}
                                                     className="d-block w-100 h-100 object-fit-cover"
                                                     alt={`Carousel Image ${index + 1}`} />
                                             </div>

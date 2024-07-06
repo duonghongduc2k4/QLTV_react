@@ -8,7 +8,6 @@ import "../css/home.css";
 export default function Home() {
     const [houses, setHouses] = useState([]);
     const username = sessionStorage.getItem('username');
-    const password = sessionStorage.getItem('password');
     const role = sessionStorage.getItem('role');
     const idAccount = sessionStorage.getItem('account_id');
     const [currentPage, setCurrentPage] = useState(1);
@@ -216,7 +215,7 @@ export default function Home() {
                                 <a href={`/detail/${houses.id}`}>
                                     <div className="image-tour">
                                         <img
-                                            src={process.env.PUBLIC_URL + '/img/' + (houses.images[0]?.nameImage || '')}
+                                            src={process.env.PUBLIC_URL + 'https://thuenhaagoda.up.railway.app/img/' + (houses.images[0]?.nameImage || '')}
                                             alt="work-thumbnail"
                                         />
                                     </div>
