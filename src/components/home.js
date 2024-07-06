@@ -214,10 +214,10 @@ export default function Home() {
                             <div className="house-card">
                                 <a href={`/detail/${houses.id}`}>
                                     <div className="image-tour">
-                                        <img
+                                        {/* <img
                                             src={process.env.PUBLIC_URL + 'https://thuenhaagoda.up.railway.app/img/' + (houses.images[0]?.nameImage || '')}
                                             alt="work-thumbnail"
-                                        />
+                                        /> */}
                                     </div>
                                 </a>
                                 <div className="title_status">
