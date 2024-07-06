@@ -193,9 +193,9 @@ function Create() {
             <div className="header" style={{ position: "sticky", top: "0", zIndex: "1000" }}>
             <nav className="navbar navbar-expand-lg bg-white shadow-sm">
                     <div className="container-fluid">
-                        <a className="navbar-brand" href="/home">
+                        {/* <a className="navbar-brand" href="/home">
                             <img src="https://banner2.cleanpng.com/20181122/xfy/kisspng-logo-house-renting-home-housing-5bf774850ed024.2354280415429438770607.jpg" alt="Agoda" style={{ height: "30px" }} />
-                        </a>
+                        </a> */}
                         <a className="nav-link active" aria-current="page" href="/home">Trang chủ</a>
 
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -378,12 +378,11 @@ function Create() {
                                         {image.map((image, index) => (
                                             <div key={index} className="image">
                                                 <div className="position-relative">
-                                                    <img
+                                                    {/* <img
                                                         src={URL.createObjectURL(image)}
                                                         alt={`Image ${index}`}
                                                         className="img-fluid"
-                                                    />
-
+                                                    /> */}
                                                 </div>
                                                 <div>
                                                     <FontAwesomeIcon icon={faRectangleXmark}
@@ -455,7 +454,7 @@ function Create() {
                         <div class="toast-container position-fixed bottom-0 end-0 p-3">
                             <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
                                 <div class="toast-header">
-                                    <img src="..." class="rounded me-2" alt="..." />
+                                    {/* <img src="..." class="rounded me-2" alt="..." /> */}
                                     <strong class="me-auto">Bootstrap</strong>
                                     <small>11 mins ago</small>
                                     <button type="button" class="btn-close" data-bs-dismiss="toast"
