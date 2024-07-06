@@ -80,7 +80,7 @@ export default function Home() {
                 <nav className="navbar navbar-expand-lg bg-white shadow-sm">
                     <div className="container-fluid">
                         <a className="navbar-brand" href="/home">
-                            {/* <img src="https://banner2.cleanpng.com/20181122/xfy/kisspng-logo-house-renting-home-housing-5bf774850ed024.2354280415429438770607.jpg" alt="Agoda" style={{ height: "30px" }} /> */}
+                            <img src="https://banner2.cleanpng.com/20181122/xfy/kisspng-logo-house-renting-home-housing-5bf774850ed024.2354280415429438770607.jpg" alt="Agoda" style={{ height: "30px" }} />
                         </a>
                         <a className="nav-link active" aria-current="page" href="/home">Trang chủ</a>
 
@@ -119,7 +119,7 @@ export default function Home() {
             </div>
             <div className="navbars">
                 <div id="carousel" class="carousel slide" data-bs-ride="carousel">
-                    {/* <div class="carousel-inner">
+                    <div class="carousel-inner">
                         <div class="carousel-item active">
                             <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/b6e874107714719.5fad336f21e5b.png" class="d-block w-100" alt="Slide 1" />
                         </div>
@@ -129,7 +129,7 @@ export default function Home() {
                         <div class="carousel-item">
                             <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/873875107714719.5fad336f1fe85.png" class="d-block w-100" alt="Slide 3" />
                         </div>
-                    </div> */}
+                    </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
@@ -214,10 +214,10 @@ export default function Home() {
                             <div className="house-card">
                                 <a href={`/detail/${houses.id}`}>
                                     <div className="image-tour">
-                                        {/* <img
+                                        <img
                                             src={process.env.PUBLIC_URL + 'https://thuenhaagoda.up.railway.app/img/' + (houses.images[0]?.nameImage || '')}
                                             alt="work-thumbnail"
-                                        /> */}
+                                        />
                                     </div>
                                 </a>
                                 <div className="title_status">
