@@ -25,6 +25,14 @@
     "web-vitals": "^2.1.4",
     "yup": "^1.4.0"
   },
+"build": {
+    "builder": "REACT_BUILD"
+  },
+  "deploy": {
+    "restartCommand": "npm run start"
+  },
+
+
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
