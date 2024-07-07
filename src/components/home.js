@@ -1,7 +1,6 @@
 import axios from "axios";
 import { Button } from "bootstrap";
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
 import Footer from "./Footer";
 import "../css/home.css";
 
@@ -11,7 +10,7 @@ export default function Home() {
     const role = sessionStorage.getItem('role');
     const idAccount = sessionStorage.getItem('account_id');
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPage, setItemsPage] = useState(12);
+    const [itemsPage] = useState(12);
     const totalPages = Math.ceil(houses.length / itemsPage);
 
 
@@ -215,7 +214,7 @@ export default function Home() {
                                 <a href={`/detail/${houses.id}`}>
                                     <div className="image-tour">
                                         <img
-                                            src={process.env.PUBLIC_URL + 'https://thuenhaagoda.up.railway.app/img/' + (houses.images[0]?.nameImage || '')}
+                                            src={process.env.PUBLIC_URL + '/img/' + (houses.images[0]?.nameImage || '')}
                                             alt="work-thumbnail"
                                         />
                                     </div>

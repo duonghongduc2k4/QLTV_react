@@ -1,9 +1,9 @@
 import "../css/detail.css"
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2"; // theme css file
-import { DatePicker, Space, message } from 'antd';
+import { DatePicker, Space } from 'antd';
 import moment from 'moment';
 import Footer from "./Footer";
 import dayjs from 'dayjs';
@@ -14,7 +14,6 @@ function Detail() {
     const navigate = useNavigate();
     const [house, setHouse] = useState({});
     const username = sessionStorage.getItem('username');
-    const password = sessionStorage.getItem('password');
     const role = sessionStorage.getItem('role');
     const idAccount = sessionStorage.getItem('account_id'); const price = house.price;
 
@@ -34,7 +33,7 @@ function Detail() {
     const [monthEnd, setMonthEnd] = useState(null);
     const [yearEnd, setYearEnd] = useState(null);
 
-    const [currentDate, setCurrentDate] = useState(moment());
+    const [currentDate] = useState(moment());
     const [datesDB, setDates] = useState([]);
     const [timeStarts, setTimeStarts] = useState([]);
     const [timeEnds, setTimeEnds] = useState([]);

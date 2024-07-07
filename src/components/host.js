@@ -6,7 +6,6 @@ import "../css/host.css"
 
 function HostList() {
     const username = sessionStorage.getItem('username');
-    const password = sessionStorage.getItem('password');
     const role = sessionStorage.getItem('role');
     const idAccount = sessionStorage.getItem('account_id');
     const [houses, setHouses] = useState([]);
@@ -14,7 +13,7 @@ function HostList() {
     const filteredData = houses.filter(house => house.account.id === parseInt(idAccount));
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPage, setItemsPage] = useState(5);
+    const [itemsPage] = useState(5);
     const totalPages = Math.ceil(filteredData.length / itemsPage);
 
     const getCurrentPageData = () => {

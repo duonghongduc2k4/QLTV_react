@@ -1,8 +1,6 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useFormik } from "formik";
-import { set } from "date-fns";
 import Footer from "./Footer";
 import "../css/confirm.css"
 
@@ -11,18 +9,15 @@ function Confirm() {
     const navigate = useNavigate();
 
     const [orders, setOrder] = useState([]);
-    const [getid, setid] = useState('');
 
     const username = sessionStorage.getItem('username');
-    const password = sessionStorage.getItem('password');
     const role = sessionStorage.getItem('role');
     const idAccount = sessionStorage.getItem('account_id');
-    const [isHidden, setIsHidden] = useState(false)
     // const [search, setSearch] = useState('');
 
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPage, setItemsPage] = useState(10);
+    const [itemsPage] = useState(10);
     const totalPages = Math.ceil(orders.length / itemsPage);
 
     const getCurrentPageData = () => {
@@ -32,7 +27,6 @@ function Confirm() {
     };
 
 
-    const currentPageData = getCurrentPageData();
 
 
     const renderPageItems = () => {
