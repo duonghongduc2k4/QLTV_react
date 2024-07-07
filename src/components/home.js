@@ -12,7 +12,7 @@ export default function Home() {
     const role = sessionStorage.getItem('role');
     const idAccount = sessionStorage.getItem('account_id');
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPage, setItemsPage] = useState(12);
+    const [itemsPage] = useState(12);
     const totalPages = Math.ceil(houses.length / itemsPage);
 
 
@@ -59,7 +59,7 @@ export default function Home() {
 
     async function getList() {
         const response =
-            await axios.get(`http://localhost:8080/api/house?name=${name}&address=${address}&numberOfBedRoom=${numberOfBedRoom}&numberOfBathRoom=${numberOfBathRoom}&priceFrom=${priceFrom}&priceTo=${priceTo}&status=${status}`);
+            await axios.get(`https://thuenhaagoda.up.railway.app/api/house?name=${name}&address=${address}&numberOfBedRoom=${numberOfBedRoom}&numberOfBathRoom=${numberOfBathRoom}&priceFrom=${priceFrom}&priceTo=${priceTo}&status=${status}`);
         // console.log(response.data)
         setHouses(response.data);
 

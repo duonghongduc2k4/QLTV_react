@@ -1,8 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import SideBar from "./sidebar/sidebar";
-import { da } from "date-fns/locale";
 import moment from "moment";
 import Footer from "./Footer";
 import "../css/history.css"
@@ -20,7 +18,7 @@ function History() {
     console.log(order)
 
     async function getHistory() {
-        const res = await axios.get(`http://localhost:8080/api/order/${idAccount}`);
+        const res = await axios.get(`https://thuenhaagoda.up.railway.app/api/order/${idAccount}`);
         setOrder(res.data);
         setToday(new Date());
         console.log(order);
@@ -40,7 +38,7 @@ function History() {
     }, [])
 
     async function cancelOrder(item) {
-        const response = await axios.put(`http://localhost:8080/api/order/${item.id}`, {
+        const response = await axios.put(`https://thuenhaagoda.up.railway.app/api/order/${item.id}`, {
             id: item.id,
         });
         if (response.data) {

@@ -1,10 +1,9 @@
-import Navbar from "./navbar";
 import "../css/detail.css"
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2"; // theme css file
-import { DatePicker, Space, message } from 'antd';
+import { DatePicker, Space } from 'antd';
 import moment from 'moment';
 import Footer from "./Footer";
 import dayjs from 'dayjs';
@@ -15,7 +14,6 @@ function Detail() {
     const navigate = useNavigate();
     const [house, setHouse] = useState({});
     const username = sessionStorage.getItem('username');
-    const password = sessionStorage.getItem('password');
     const role = sessionStorage.getItem('role');
     const idAccount = sessionStorage.getItem('account_id'); const price = house.price;
 
@@ -50,7 +48,7 @@ function Detail() {
     const [account, setAccount] = useState({});
 
     async function getAccount() {
-        const res = await axios.get(`http://localhost:8080/api/account/${idAccount}`)
+        const res = await axios.get(`https://thuenhaagoda.up.railway.app/api/account/${idAccount}`)
         console.log(res)
         setAccount(res.data);
     }
@@ -109,7 +107,7 @@ function Detail() {
     }
     const [status, setStatus] = useState(0)
     async function getHouse() {
-        const res = await axios.get(`http://localhost:8080/api/house/${params.id}`)
+        const res = await axios.get(`https://thuenhaagoda.up.railway.app/api/house/${params.id}`)
         setHouse(res.data);
         setStatus(res.data.status.id);
     }
@@ -128,7 +126,7 @@ function Detail() {
         e.preventDefault();
 
         const date = `${yearStart}-${monthStart}-${dayStart} -- ${yearEnd}-${monthEnd}-${dayEnd}`;
-        const response = await axios.post('http://localhost:8080/api/order', {
+        const response = await axios.post('https://thuenhaagoda.up.railway.app/api/order', {
             date: date,
             idHouse: params.id,
             total: numDays,
@@ -162,7 +160,7 @@ function Detail() {
 
     async function ListTime() {
 
-        const res = await axios.get(`http://localhost:8080/api/order/time/${params.id}`);
+        const res = await axios.get(`https://thuenhaagoda.up.railway.app/api/order/time/${params.id}`);
 
         const newDates = [];
         const newTimeStarts = [];
@@ -195,7 +193,7 @@ function Detail() {
     };
 
     async function cancelOrder() {
-        const response = await axios.put(`http://localhost:8080/api/house/no/${house.id}`, {
+        const response = await axios.put(`https://thuenhaagoda.up.railway.app/api/house/no/${house.id}`, {
             id:house.id,
             
         });

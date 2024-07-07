@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { useFormik, validateYupSchema } from "formik";
+import { useFormik } from "formik";
 import "../css/create.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRectangleXmark } from '@fortawesome/free-solid-svg-icons'
@@ -21,7 +21,7 @@ function Create() {
     useEffect(() => {
         async function getTypeRooms() {
             try {
-                const response = await axios.get("http://localhost:8080/api/type-room");
+                const response = await axios.get("https://thuenhaagoda.up.railway.app/api/type-room");
                 setTypeRooms(response.data);
             } catch (error) {
                 console.error("Error fetching type rooms:", error);
@@ -92,7 +92,7 @@ function Create() {
                     formData.append("image", image[i]);
                 }
 
-                await axios.post("http://localhost:8080/api/house", formData, {
+                await axios.post("https://thuenhaagoda.up.railway.app/api/house", formData, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                 });
 
