@@ -126,7 +126,7 @@ function Detail() {
         e.preventDefault();
 
         const date = `${yearStart}-${monthStart}-${dayStart} -- ${yearEnd}-${monthEnd}-${dayEnd}`;
-        const response = await axios.post('https://thuenhaagoda.up.railway.app/api/order', {
+        const response = await axios.post('https://thuenhaagoda.up.railway.app:8080/api/order', {
             date: date,
             idHouse: params.id,
             total: numDays,
@@ -202,7 +202,7 @@ function Detail() {
     return (
         <div>
             <div className="header" style={{ position: "sticky", top: "0", zIndex: "1000" }}>
-                <nav className="navbar navbar-expand-lg bg-white shadow-sm">
+            <nav className="navbar navbar-expand-lg bg-white shadow-sm">
                     <div className="container-fluid">
                         <a className="navbar-brand" href="/home">
                             <img src="https://banner2.cleanpng.com/20181122/xfy/kisspng-logo-house-renting-home-housing-5bf774850ed024.2354280415429438770607.jpg" alt="Agoda" style={{ height: "30px" }} />
@@ -217,25 +217,49 @@ function Detail() {
                                 {role === 'admin' || role === 'host' ? (
                                     <>
                                         <li className="nav-item dropdown">
-                                            <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <button className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                 {username}
-                                            </a>
+                                            </button>
                                             <ul className="dropdown-menu dropdown-menu-end">
-                                                <li><a className="dropdown-item" href="/host">Chủ nhà</a></li>
-                                                <li><a className="dropdown-item" href="/create">Đăng nhà</a></li>
-                                                <li><a href={`/history/${idAccount}`} className="dropdown-item">Lịch sử đặt</a></li>
-                                                <li><a className="dropdown-item" href="#">Chi tiết tài khoản</a></li>
+                                                <li>
+                                                    <button className="dropdown-item" onClick={() => window.location.href = '/host'}>
+                                                        Chủ nhà
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button className="dropdown-item" onClick={() => window.location.href = '/create'}>
+                                                        Đăng nhà
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button className="dropdown-item" onClick={() => window.location.href = `/history/${idAccount}`}>
+                                                        Lịch sử đặt
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button className="dropdown-item" onClick={() => window.location.href = '#'}>
+                                                        Chi tiết tài khoản
+                                                    </button>
+                                                </li>
                                             </ul>
                                         </li>
                                     </>
                                 ) : (
                                     <li className="nav-item dropdown">
-                                        <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <button className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             {username}
-                                        </a>
+                                        </button>
                                         <ul className="dropdown-menu dropdown-menu-end">
-                                            <li><a href={`/history/${idAccount}`} className="dropdown-item">Lịch sử đặt</a></li>
-                                            <li><a className="dropdown-item" href="#">Chi tiết tài khoản</a></li>
+                                            <li>
+                                                <button className="dropdown-item" onClick={() => window.location.href = `/history/${idAccount}`}>
+                                                    Lịch sử đặt
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button className="dropdown-item" onClick={() => window.location.href = '#'}>
+                                                    Chi tiết tài khoản
+                                                </button>
+                                            </li>
                                         </ul>
                                     </li>
                                 )}
@@ -257,7 +281,7 @@ function Detail() {
                                         {house.images?.map((item, index) => (
                                             <div className={`carousel-item ${index === 0 ? 'active' : ''}`}
                                                 style={{ height: '500px' }}>
-                                                <img src={process.env.PUBLIC_URL + 'https://thuenhaagoda.up.railway.app/img/' + (item.nameImage)}
+                                                <img src={process.env.PUBLIC_URL + '/img/' + (item.nameImage)}
                                                     className="d-block w-100 h-100 object-fit-cover"
                                                     alt={`Carousel Image ${index + 1}`} />
                                             </div>

@@ -1,4 +1,4 @@
-import {  useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Footer from "./Footer";
@@ -9,7 +9,6 @@ function Confirm() {
     const navigate = useNavigate();
 
     const [orders, setOrder] = useState([]);
-    const [getid, setid] = useState('');
 
     const username = sessionStorage.getItem('username');
     const role = sessionStorage.getItem('role');
@@ -28,7 +27,6 @@ function Confirm() {
     };
 
 
-    const currentPageData = getCurrentPageData();
 
 
     const renderPageItems = () => {
@@ -37,7 +35,9 @@ function Confirm() {
             const isActive = i === currentPage ? 'active' : '';
             pageItems.push(
                 <li className={`page-item ${isActive}`} key={i}>
-                    <a className="page-link" onClick={() => currentPage + 1}>{i}</a>
+                    <button className="page-link" onClick={() => setCurrentPage(i)}>
+                        {i}
+                    </button>
                 </li>
             );
         }
@@ -46,7 +46,7 @@ function Confirm() {
 
 
     async function getOrder() {
-        const res = await axios.get(`http://localhost:8080/api/order/host/${idAccount}`);
+        const res = await axios.get(`https://thuenhaagoda.up.railway.app/api/order/host/${idAccount}`);
         setOrder(res.data);
     };
 
@@ -57,7 +57,7 @@ function Confirm() {
     }, [])
 
     async function yes(order) {
-        const response = await axios.put(`http://localhost:8080/api/order/yes/${idAccount}`, {
+        const response = await axios.put(`https://thuenhaagoda.up.railway.app/api/order/yes/${idAccount}`, {
             total: "1",
             id: order.id
         });
@@ -65,7 +65,7 @@ function Confirm() {
     }
 
     async function no(order) {
-        const response = await axios.put(`http://localhost:8080/api/order/yes/${idAccount}`, {
+        const response = await axios.put(`https://thuenhaagoda.up.railway.app/api/order/yes/${idAccount}`, {
             total: "2",
             id: order.id
         });
@@ -80,47 +80,71 @@ function Confirm() {
         <>
             <div>
                 <div className="header" style={{ position: "sticky", top: "0", zIndex: "1000" }}>
-                    <nav className="navbar navbar-expand-lg bg-white shadow-sm">
-                        <div className="container-fluid">
-                            <a className="navbar-brand" href="/home">
-                                <img src="https://banner2.cleanpng.com/20181122/xfy/kisspng-logo-house-renting-home-housing-5bf774850ed024.2354280415429438770607.jpg" alt="Agoda" style={{ height: "30px" }} />
-                            </a>
-                            <a className="nav-link active" aria-current="page" href="/home">Trang chủ</a>
+                <nav className="navbar navbar-expand-lg bg-white shadow-sm">
+                    <div className="container-fluid">
+                        <a className="navbar-brand" href="/home">
+                            <img src="https://banner2.cleanpng.com/20181122/xfy/kisspng-logo-house-renting-home-housing-5bf774850ed024.2354280415429438770607.jpg" alt="Agoda" style={{ height: "30px" }} />
+                        </a>
+                        <a className="nav-link active" aria-current="page" href="/home">Trang chủ</a>
 
-                            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                                <span className="navbar-toggler-icon"></span>
-                            </button>
-                            <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
-                                <ul className="navbar-nav">
-                                    {role === 'admin' || role === 'host' ? (
-                                        <>
-                                            <li className="nav-item dropdown">
-                                                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    {username}
-                                                </a>
-                                                <ul className="dropdown-menu dropdown-menu-end">
-                                                    <li><a className="dropdown-item" href="/host">Chủ nhà</a></li>
-                                                    <li><a className="dropdown-item" href="/create">Đăng nhà</a></li>
-                                                    <li><a href={`/history/${idAccount}`} className="dropdown-item">Lịch sử đặt</a></li>
-                                                    <li><a className="dropdown-item" href="#">Chi tiết tài khoản</a></li>
-                                                </ul>
-                                            </li>
-                                        </>
-                                    ) : (
+                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                        <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
+                            <ul className="navbar-nav">
+                                {role === 'admin' || role === 'host' ? (
+                                    <>
                                         <li className="nav-item dropdown">
-                                            <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <button className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                 {username}
-                                            </a>
+                                            </button>
                                             <ul className="dropdown-menu dropdown-menu-end">
-                                                <li><a href={`/history/${idAccount}`} className="dropdown-item">Lịch sử đặt</a></li>
-                                                <li><a className="dropdown-item" href="#">Chi tiết tài khoản</a></li>
+                                                <li>
+                                                    <button className="dropdown-item" onClick={() => window.location.href = '/host'}>
+                                                        Chủ nhà
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button className="dropdown-item" onClick={() => window.location.href = '/create'}>
+                                                        Đăng nhà
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button className="dropdown-item" onClick={() => window.location.href = `/history/${idAccount}`}>
+                                                        Lịch sử đặt
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button className="dropdown-item" onClick={() => window.location.href = '#'}>
+                                                        Chi tiết tài khoản
+                                                    </button>
+                                                </li>
                                             </ul>
                                         </li>
-                                    )}
-                                </ul>
-                            </div>
+                                    </>
+                                ) : (
+                                    <li className="nav-item dropdown">
+                                        <button className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            {username}
+                                        </button>
+                                        <ul className="dropdown-menu dropdown-menu-end">
+                                            <li>
+                                                <button className="dropdown-item" onClick={() => window.location.href = `/history/${idAccount}`}>
+                                                    Lịch sử đặt
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button className="dropdown-item" onClick={() => window.location.href = '#'}>
+                                                    Chi tiết tài khoản
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                )}
+                            </ul>
                         </div>
-                    </nav>
+                    </div>
+                </nav>
                 </div>
                 <body style={{ height: '500px' }}>
                     <div className="container" style={{ minHeight: '19rem' }}>
@@ -200,10 +224,15 @@ function Confirm() {
                 <nav aria-label="Page navigation example">
                     <ul className="pagination justify-content-center">
                         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                            <a className="page-link" onClick={() => setCurrentPage(currentPage - 1)}>Previous</a>
-                        </li>{renderPageItems()}
+                            <button className="page-link" onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
+                                Previous
+                            </button>
+                        </li>
+                        {renderPageItems()}
                         <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                            <a className="page-link" onClick={() => setCurrentPage(currentPage + 1)}>Next</a>
+                            <button className="page-link" onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>
+                                Next
+                            </button>
                         </li>
                     </ul>
                 </nav>

@@ -6,15 +6,13 @@ import "../css/host.css"
 
 function HostList() {
     const username = sessionStorage.getItem('username');
-    const password = sessionStorage.getItem('password');
     const role = sessionStorage.getItem('role');
     const idAccount = sessionStorage.getItem('account_id');
     const [houses, setHouses] = useState([]);
-    // const [search, setSearch] = useState('');
     const filteredData = houses.filter(house => house.account.id === parseInt(idAccount));
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPage, setItemsPage] = useState(5);
+    const [itemsPage] = useState(5);
     const totalPages = Math.ceil(filteredData.length / itemsPage);
 
     const getCurrentPageData = () => {
@@ -33,7 +31,9 @@ function HostList() {
 
             pageItems.push(
                 <li className={`page-item ${isActive}`} key={i}>
-                    <a className="page-link" onClick={() => currentPage + 1}>{i}</a>
+                    <button className="page-link" onClick={() => setCurrentPage(i)}>
+                        {i}
+                    </button>
                 </li>
             );
         }
@@ -52,12 +52,7 @@ function HostList() {
     function formatCurrency(amount) {
         return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
     }
-    async function deleteHouse(id){
-        if(window.confirm("Bạn có chắc muốn xóa nhà không !")){
-            const response=await axios.delete(`https://thuenhaagoda.up.railway.app/api/house/${id}`);
-         } getList();
-    }
-
+  
     useEffect(() => {
         getList()
     }, [])
@@ -80,25 +75,49 @@ function HostList() {
                                 {role === 'admin' || role === 'host' ? (
                                     <>
                                         <li className="nav-item dropdown">
-                                            <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <button className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                 {username}
-                                            </a>
+                                            </button>
                                             <ul className="dropdown-menu dropdown-menu-end">
-                                                <li><a className="dropdown-item" href="/host">Chủ nhà</a></li>
-                                                <li><a className="dropdown-item" href="/create">Đăng nhà</a></li>
-                                                <li><a href={`/history/${idAccount}`} className="dropdown-item">Lịch sử đặt</a></li>
-                                                <li><a className="dropdown-item" href="#">Chi tiết tài khoản</a></li>
+                                                <li>
+                                                    <button className="dropdown-item" onClick={() => window.location.href = '/host'}>
+                                                        Chủ nhà
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button className="dropdown-item" onClick={() => window.location.href = '/create'}>
+                                                        Đăng nhà
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button className="dropdown-item" onClick={() => window.location.href = `/history/${idAccount}`}>
+                                                        Lịch sử đặt
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button className="dropdown-item" onClick={() => window.location.href = '#'}>
+                                                        Chi tiết tài khoản
+                                                    </button>
+                                                </li>
                                             </ul>
                                         </li>
                                     </>
                                 ) : (
                                     <li className="nav-item dropdown">
-                                        <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <button className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             {username}
-                                        </a>
+                                        </button>
                                         <ul className="dropdown-menu dropdown-menu-end">
-                                            <li><a href={`/history/${idAccount}`} className="dropdown-item">Lịch sử đặt</a></li>
-                                            <li><a className="dropdown-item" href="#">Chi tiết tài khoản</a></li>
+                                            <li>
+                                                <button className="dropdown-item" onClick={() => window.location.href = `/history/${idAccount}`}>
+                                                    Lịch sử đặt
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button className="dropdown-item" onClick={() => window.location.href = '#'}>
+                                                    Chi tiết tài khoản
+                                                </button>
+                                            </li>
                                         </ul>
                                     </li>
                                 )}
@@ -107,7 +126,7 @@ function HostList() {
                     </div>
                 </nav>
             </div>
-            <body style={{height:'500px'}}>
+            <body style={{ height: '500px' }}>
                 <div className="container" >
                     <ul class="nav nav-tabs">
                         <Link to="/create">
@@ -145,14 +164,14 @@ function HostList() {
                                     <td>{house.address}</td>
                                     <td>{formatCurrency(house.price)}</td>
                                     <td>
-                                        <button style={{border:'none'}} type="button" className="custom-button custom-button--secondary " onClick={() => window.location.href = `edit/${house.id}`}>
+                                        <button style={{ border: 'none' }} type="button" className="custom-button custom-button--secondary " onClick={() => window.location.href = `edit/${house.id}`}>
                                             Sửa nhà
                                         </button>
-                                    
+
                                     </td>
                                     <td>
-                                            
-                                        </td>
+
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
@@ -163,13 +182,16 @@ function HostList() {
                 <nav aria-label="Page navigation example">
                     <ul className="pagination justify-content-center">
                         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                            <a className="page-link" onClick={() => setCurrentPage(currentPage - 1)}>Previous</a>
+                            <button className="page-link" onClick={() => setCurrentPage(currentPage - 1)}>
+                                Previous
+                            </button>
                         </li>
                         {renderPageItems()}
                         <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                            <a className="page-link" onClick={() => setCurrentPage(currentPage + 1)}>Next</a>
+                            <button className="page-link" onClick={() => setCurrentPage(currentPage + 1)}>
+                                Next
+                            </button>
                         </li>
-
                     </ul>
                 </nav>
             </div>
