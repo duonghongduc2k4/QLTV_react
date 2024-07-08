@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
+import { useFormik, validateYupSchema } from "formik";
 import "../css/create.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRectangleXmark } from '@fortawesome/free-solid-svg-icons'
@@ -92,7 +92,7 @@ function Create() {
                     formData.append("image", image[i]);
                 }
 
-                await axios.post("thuenhaagoda.up.railway.app/api/house", formData, {
+                await axios.post("https://thuenhaagoda.up.railway.app/api/house", formData, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                 });
 
