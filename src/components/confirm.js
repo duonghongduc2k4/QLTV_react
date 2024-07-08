@@ -1,8 +1,7 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useFormik } from "formik";
-import { set } from "date-fns";
+
 import Footer from "./Footer";
 import "../css/confirm.css"
 
@@ -14,7 +13,6 @@ function Confirm() {
     const [getid, setid] = useState('');
 
     const username = sessionStorage.getItem('username');
-    const password = sessionStorage.getItem('password');
     const role = sessionStorage.getItem('role');
     const idAccount = sessionStorage.getItem('account_id');
     const [isHidden, setIsHidden] = useState(false)
@@ -50,7 +48,7 @@ function Confirm() {
 
 
     async function getOrder() {
-        const res = await axios.get(`http://localhost:8080/api/order/host/${idAccount}`);
+        const res = await axios.get(`https://thuenhaagoda.up.railway.app/api/order/host/${idAccount}`);
         setOrder(res.data);
     };
 
@@ -61,7 +59,7 @@ function Confirm() {
     }, [])
 
     async function yes(order) {
-        const response = await axios.put(`http://localhost:8080/api/order/yes/${idAccount}`, {
+        const response = await axios.put(`https://thuenhaagoda.up.railway.app/api/order/yes/${idAccount}`, {
             total: "1",
             id: order.id
         });
@@ -69,7 +67,7 @@ function Confirm() {
     }
 
     async function no(order) {
-        const response = await axios.put(`http://localhost:8080/api/order/yes/${idAccount}`, {
+        const response = await axios.put(`https://thuenhaagoda.up.railway.app/api/order/yes/${idAccount}`, {
             total: "2",
             id: order.id
         });

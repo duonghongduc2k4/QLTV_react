@@ -1,18 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { date } from "yup";
 import "../css/login.css"
-import {
-    MDBContainer,
-    MDBCol,
-    MDBRow,
-    MDBBtn,
-    MDBIcon,
-    MDBInput,
-    MDBCheckbox
-}
-    from 'mdb-react-ui-kit';
+
 
 function Login() {
 
@@ -27,7 +17,7 @@ function Login() {
     };
     async function Login(e) {
         e.preventDefault();
-        const reponse = await axios.post('http://localhost:8080/api/account/login', {
+        const reponse = await axios.post('https://thuenhaagoda.up.railway.app/api/account/login', {
             username: username,
             password: password
         })
