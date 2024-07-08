@@ -92,9 +92,9 @@ function Create() {
                     formData.append("image", image[i]);
                 }
 
-                // await axios.post("https://thuenhaagoda.up.railway.app/api/house", formData, {
-                //     headers: { 'Content-Type': 'multipart/form-data' },
-                // });
+                await axios.post("https://thuenhaagoda.up.railway.app/api/house", formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                });
 
                 const Toast = Swal.mixin({
                     toast: true,
