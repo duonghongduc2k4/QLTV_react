@@ -1,4 +1,4 @@
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -8,6 +8,8 @@ import "../css/confirm.css"
 function Confirm() {
 
     const navigate = useNavigate();
+    const [houses, setHouses] = useState([]);
+
 
     const [orders, setOrder] = useState([]);
     const [getid, setid] = useState('');
@@ -19,15 +21,19 @@ function Confirm() {
     // const [search, setSearch] = useState('');
 
 
+    const filteredData = houses.filter(house => house.account.id === parseInt(idAccount));
+
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPage, setItemsPage] = useState(10);
-    const totalPages = Math.ceil(orders.length / itemsPage);
+    const totalPages = Math.ceil(filteredData.length / itemsPage);
 
     const getCurrentPageData = () => {
         const startIndex = (currentPage - 1) * itemsPage;
         const endIndex = startIndex + itemsPage;
-        return orders.slice(startIndex, endIndex);
+        const reversedData = [...filteredData].reverse();
+        return reversedData.slice(startIndex, endIndex);
     };
+
 
 
     const currentPageData = getCurrentPageData();
@@ -73,6 +79,15 @@ function Confirm() {
         });
         getOrder()
     }
+    async function getList() {
+        const response = await axios.get(`https://thuenhaagoda.up.railway.app/api/house`);
+        setHouses(response.data)
+        console.log(idAccount)
+    };
+
+    useEffect(() => {
+        getList()
+    }, [])
 
     function formatCurrency(amount) {
         return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
@@ -134,85 +149,95 @@ function Confirm() {
                                 <a class="nav-link active" href={`/order/${idAccount}`}>Danh sách đăng ký thuê</a>
                             </li>
                         </ul>
-                        <table className="custom-table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Tên người đặt</th>
-                                    <th>Tên nhà</th>
-                                    <th>Địa chỉ</th>
-                                    <th>Giá</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            {orders && orders.length > 0 ? (
-                                orders.reverse().map((order, i) => (
-                                    <tbody key={i}>
+                        <div >
+                            <table className="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Tên người đặt</th>
+                                        <th>Tên nhà</th>
+                                        <th>Địa chỉ</th>
+                                        <th>Giá</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                {orders && orders.length > 0 ? (
+                                    orders.reverse().map((order, i) => (
+                                        <tbody key={i}>
+                                            <tr>
+                                                <td scope="row">{i + 1}</td>
+                                                <td>{order.account.name}</td>
+                                                <td>
+                                                    <a href={`detail/${order.house.id}`} className="custom-link">
+                                                        {order.house.name}
+                                                    </a>
+                                                </td>
+                                                <td>{order.house.address}</td>
+                                                <td>{formatCurrency(order.revenue)}</td>
+                                                <td>
+                                                    {(() => {
+                                                        switch (order.status.id) {
+                                                            case 2:
+                                                                return 'Đã chấp nhận thuê';
+                                                            case 5:
+                                                                return 'Đã từ chối cho thuê';
+                                                            case 7:
+                                                                return 'Khách đã hủy';
+                                                            case 6:
+                                                                return 'Đã ngưng cho thuê';
+                                                        }
+                                                    })()}
+                                                    {order.status.id === 3 && (
+                                                        <div>
+                                                            <button
+                                                                style={{ border: 'none' }}
+                                                                className="custom-button custom-button--primary"
+                                                                onClick={() => yes(order)}
+                                                            >
+                                                                Chấp nhận thuê
+                                                            </button>
+                                                            <button
+                                                                style={{ border: 'none' }}
+                                                                className="custom-button custom-button--danger"
+                                                                onClick={() => no(order)}
+                                                            >
+                                                                Từ chối thuê
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    ))
+                                ) : (
+                                    <tbody>
                                         <tr>
-                                            <td scope="row">{i + 1}</td>
-                                            <td>{order.account.name}</td>
-                                            <td>
-                                                <a href={`detail/${order.house.id}`} className="custom-link">
-                                                    {order.house.name}
-                                                </a>
-                                            </td>
-                                            <td>{order.house.address}</td>
-                                            <td>{formatCurrency(order.revenue)}</td>
-                                            <td>
-                                                {(() => {
-                                                    switch (order.status.id) {
-                                                        case 2:
-                                                            return 'Đã chấp nhận thuê';
-                                                        case 5:
-                                                            return 'Đã từ chối cho thuê';
-                                                        case 7:
-                                                            return 'Khách đã hủy';
-                                                        case 6:
-                                                            return 'Đã ngưng cho thuê';
-                                                    }
-                                                })()}
-                                                {order.status.id === 3 &&
-                                                    <div>
-                                                        <button style={{ border: 'none' }} className="custom-button custom-button--primary" onClick={() => yes(order)}>
-                                                            Chấp nhận thuê
-                                                        </button>
-                                                        <button style={{ border: 'none' }} className="custom-button custom-button--danger" onClick={() => no(order)}>
-                                                            Từ chối thuê
-                                                        </button>
-                                                    </div>
-                                                }
-                                            </td>
+                                            <td colSpan={6}>Chưa có dữ liệu</td>
                                         </tr>
                                     </tbody>
-                                ))
-                            ) : (
-                                <tbody>
-                                    <tr>
-                                        <td colSpan={6}>Chưa có dữ liệu</td>
-                                    </tr>
-                                </tbody>
-                            )}
-                        </table>
+                                )}
+                            </table>
+                        </div>
                     </div>
                 </body>
-
-
             </div>
-            <div style={{ marginTop: '1rem' }}>
+            {/* <div style={{ marginTop: '1rem' }}>
                 <nav aria-label="Page navigation example">
                     <ul className="pagination justify-content-center">
                         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
                             <a className="page-link" onClick={() => setCurrentPage(currentPage - 1)}>Previous</a>
-                        </li>{renderPageItems()}
+                        </li>
+                        {renderPageItems()}
                         <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
                             <a className="page-link" onClick={() => setCurrentPage(currentPage + 1)}>Next</a>
                         </li>
+
                     </ul>
                 </nav>
             </div>
             <div className="footer">
                 <Footer />
-            </div>
+            </div> */}
         </>
     )
 }
